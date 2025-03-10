@@ -1,0 +1,6 @@
+Sources of Data Files:
+
+- cip_2020_definitions: https://nces.ed.gov/ipeds/cipcode/searchresults.aspx
+- CIP2020_SOC2018_Crosswalk: https://nces.ed.gov/ipeds/cipcode/searchresults.aspx
+- TOPCIP2020June26: https://nces.ed.gov/ipeds/cipcode/post3.aspx?y=56
+- soc_2018_definitions: https://www.bls.gov/soc/2018/
