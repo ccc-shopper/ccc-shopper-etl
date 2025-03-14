@@ -2,7 +2,9 @@
 This module contains functions to download student success data from the 
 California Community Colleges Chancellor's Office (CCCCO) DataMart. This is a 
 centralized repository of aggregated data that the California Community Colleges
-report to the CCCCO after each academic period. 
+report to the CCCCO after each academic period.
+
+Author: EM
 """
 
 import lxml.html as lx
