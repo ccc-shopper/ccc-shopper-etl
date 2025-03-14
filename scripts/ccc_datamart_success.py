@@ -13,7 +13,7 @@ import requests_cache
 session = requests_cache.CachedSession()
 
 
-def get_success(filename: str) -> pd.DataFrame:
+def get_success(filename: str = "success") -> pd.DataFrame:
     """
     This function will return all available student success data. Saves the file
     to the specified filename.
@@ -53,7 +53,7 @@ def get_success(filename: str) -> pd.DataFrame:
 
         success_data = pd.DataFrame(table_info)
 
-        success_data.to_csv(filename, index=False)
+        success_data.to_csv(f"./data/{filename}.csv", index=False)
         return success_data
 
 
@@ -176,4 +176,6 @@ def _get_payload(viewstate, viewstategen, event_val):
 
 
 if __name__ == "__main__":
-    get_success()
+    print("Gathering success data...")
+    success = get_success()
+    print(success)

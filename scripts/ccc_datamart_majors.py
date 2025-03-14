@@ -23,12 +23,17 @@ def get_majors(page: int) -> pd.DataFrame:
     call_number = f"c0:P|PN{page}"
     viewstate, viewstategen, event_val = _get_viewstate()
 
-    response_top_four = requests.post(
-        "https://datamart.cccco.edu/Outcomes/Program_Awards.aspx",
-        data=_get_payload(call_number, viewstate, viewstategen, event_val),
-        cookies=_get_cookies_majors(),
-        headers=_get_headers(),
-    )
+    try:
+        response_top_four = requests.post(
+            "https://datamart.cccco.edu/Outcomes/Program_Awards.aspx",
+            data=_get_payload(call_number, viewstate, viewstategen, event_val),
+            cookies=_get_cookies_majors(),
+            headers=_get_headers(),
+        )
+        response_top_four.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print(f"Error retrieving majors: {e}")
+        return pd.DataFrame()
 
     modify_text4 = response_top_four.text
 
@@ -89,19 +94,23 @@ def get_modified_majors(filename: str = "majors") -> pd.DataFrame:
     DataFrame with the modified data. Saves the file to the specified filename.
     """
 
-    major_modified = get_all_majors()
-    major_modified["College"] = major_modified["Major or Total Awards"].where(
-        major_modified["Major or Total Awards"].str.contains("Total")
-    )
-    major_modified["College"] = major_modified["College"].ffill()
-    major_modified = major_modified[
-        ~major_modified["Major or Total Awards"].str.contains("Total")
-    ]
-    major_modified["College"] = (
-        major_modified["College"].str.replace("Total", "")
-    )
-    college = major_modified.pop("College")
-    major_modified.insert(0, "College", college)
+    try:
+        major_modified = get_all_majors()
+        major_modified["College"] = major_modified["Major or Total Awards"].where(
+            major_modified["Major or Total Awards"].str.contains("Total")
+        )
+        major_modified["College"] = major_modified["College"].ffill()
+        major_modified = major_modified[
+            ~major_modified["Major or Total Awards"].str.contains("Total")
+        ]
+        major_modified["College"] = (
+            major_modified["College"].str.replace("Total", "")
+        )
+        college = major_modified.pop("College")
+        major_modified.insert(0, "College", college)
+    except Exception as e:
+        print(f"Error editing majors: {e}")
+        return pd.DataFrame()
 
     headers = [
         "College",
@@ -233,4 +242,6 @@ def _get_payload(call_number, viewstate, viewstategen, event_val) -> dict:
 
 
 if __name__ == "__main__":
-    get_modified_majors()
+    print("Getting major data...")
+    majors = get_modified_majors()
+    print(majors)
