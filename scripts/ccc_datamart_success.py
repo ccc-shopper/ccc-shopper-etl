@@ -2,7 +2,9 @@
 This module contains functions to download student success data from the 
 California Community Colleges Chancellor's Office (CCCCO) DataMart. This is a 
 centralized repository of aggregated data that the California Community Colleges
-report to the CCCCO after each academic period. 
+report to the CCCCO after each academic period.
+
+Author: EM
 """
 
 import lxml.html as lx
@@ -13,7 +15,7 @@ import requests_cache
 session = requests_cache.CachedSession()
 
 
-def get_success(filename: str) -> pd.DataFrame:
+def get_success(filename: str = "success") -> pd.DataFrame:
     """
     This function will return all available student success data. Saves the file
     to the specified filename.
@@ -53,7 +55,7 @@ def get_success(filename: str) -> pd.DataFrame:
 
         success_data = pd.DataFrame(table_info)
 
-        success_data.to_csv(filename, index=False)
+        success_data.to_csv(f"./data/{filename}.csv", index=False)
         return success_data
 
 
@@ -176,4 +178,6 @@ def _get_payload(viewstate, viewstategen, event_val):
 
 
 if __name__ == "__main__":
-    get_success()
+    print("Gathering success data...")
+    success = get_success()
+    print(success)
