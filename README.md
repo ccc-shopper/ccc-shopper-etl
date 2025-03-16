@@ -2,22 +2,27 @@
 
 Data on community colleges.
 
+## Directory
+
+- `college_level_data.ipynb` contains exploratory data analysis using the [the CCCCO API](https://api.cccco.edu/) and the College Scorecard API.
+- `cccco_data_mart.ipynb` contains ETL scripts and exploratory data analysis on data from the [the CCC DataMart](https://datamart.cccco.edu/).
+- `labor_market.ipynb` contains contains exploratory data analysis on the data from [California Employment Development Department](https://data.ca.gov/).
+- `sentiment_analysis.ipynb` contains ETL scripts and a sentiment analysis on the colleges using [ratemyprofessors.com](https://www.ratemyprofessors.com/).
+- `scripts/` contains modules that handle the ETL processes from the CCCCO API, the College Scorecard API, and the California Employment Development Department API.
+- `data/` contains the CSV output of some of the ETL processes discussed above.
+- `docs/` contains the HTML for the interactive plots generated in the code discussed above.
+- `figures/` contains the static plots generated in the code discussed above.
+- `resources/` contains CSVs downloaded from the web to assist in translating between data sources.
+- `jupyter/` contains a set of Jupyter notebooks that were used in the early stages of this project to test the ETL processes.
+
 ## Project Plan
 
-1. Gather all relevant metadata on California Community Colleges using `colleges` endpoint of the [the CCC API](https://api.cccco.edu/).
-2. Determine the top $n$ most popular programs of study using [the CCC DataMart](https://datamart.cccco.edu/).
-3. Gather all colleges in the CCC system that offer a degree or certificate in those programs using `programs` endpoint [the CCC API](https://api.cccco.edu/).
-4. Merge the `colleges` endpoint data with the `programs` endpoint data (one row per college per program).
-5. Merge the college data with the DataMart program data (one row per college per program).
-6. Merge the data with external sources:
-   - labor market projection data on:
-      - `college_data["County"]` fuzzy join on `labor_market_data["Metropolitan Statistical Areas"]` 
-      - `college_data["TopCode"]` match on `labor_market_data["SOC Code"]` at `labor_market_data["SOC Level"] == 4` (this will be a one-to-many join)
-    - College Scorecard data (e.g., enrollment count, student and faculty demographics, retention rate, etc.) on:
-      - `college_data["CollegeName"]` join on `college_scorecard["CollegeName"]`
-    - Rate My Professors NLP data (sentiment analysis) on:
-      - `college_data["CollegeName"]` join on `rate_my_professor["CollegeName"]`
-      - `college_data["ProgramTitle"]` fuzzy join on `rate_my_professor["Department"]` (if possible)
+1. Gather all relevant metadata on California Community Colleges using `colleges` endpoint of the [the CCCCO API](https://api.cccco.edu/).
+2. Gather all relevant federally collected data (e.g., enrollment count, student and faculty demographics, etc) on California Community Colleges using the [College Scorecard API](https://collegescorecard.ed.gov/data/api-documentation/)
+3. Determine popular programs of study and student demographics using [the CCCCO DataMart](https://datamart.cccco.edu/).
+6. Cross reference these data with external sources:
+   - labor market projection data.
+   - Rate My Professors NLP data (sentiment analysis).
 
 ## Data Sources
 
