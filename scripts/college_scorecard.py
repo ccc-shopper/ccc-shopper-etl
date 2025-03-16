@@ -152,13 +152,15 @@ def get_scorecard_by_college(
             "latest_student_FAFSA_applications",
         ]
     ] = data[
-        "latest_student_size",
-        "latest_student_enrollment_undergrad_12_month",
-        "latest_student_demographics_over_23_at_entry",
-        "latest_student_demographics_first_generation",
-        "latest_student_demographics_median_hh_income",
-        "latest_student_demographics_student_faculty_ratio",
-        "latest_student_FAFSA_applications",
+        [
+            "latest_student_size",
+            "latest_student_enrollment_undergrad_12_month",
+            "latest_student_demographics_over_23_at_entry",
+            "latest_student_demographics_first_generation",
+            "latest_student_demographics_median_hh_income",
+            "latest_student_demographics_student_faculty_ratio",
+            "latest_student_FAFSA_applications",
+        ]
     ].apply(pd.to_numeric)
 
     return data

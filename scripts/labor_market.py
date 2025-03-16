@@ -201,3 +201,55 @@ def get_occupation_projections_for_msa_and_soc(
     return _labor_market_sql_to_dataframe(sql).sort_values(
         by=["Area Name", "Standard Occupational Classification (SOC)"]
     )
+
+
+def _get_top_occupation_per_msa(sort_by: str) -> pd.DataFrame:
+    """
+    Returns a DataFrame of the top occupation projections for each MSA.
+
+    :param sort_by: The column to sort occupation projections sort_by. Must be
+        one of "Percentage Change" or "Numeric Change".
+    :return: A DataFrame of the top occupation projections for each MSA.
+    """
+    sql = f"""
+        SELECT
+            *
+        FROM
+            "{CA_LABOR_MARKET_DATA['occupation']}" AS t1
+        WHERE
+            t1."SOC Level" = 4
+            AND t1."Area Type" = 'Metropolitan Area'
+            AND t1."{sort_by}" = (
+                SELECT
+                    t2."{sort_by}"
+                FROM
+                    "{CA_LABOR_MARKET_DATA['occupation']}" AS t2
+                WHERE
+                    t2."Area Name" = t1."Area Name"
+                    AND t2."SOC Level" = 4
+                    AND t2."Area Type" = 'Metropolitan Area'
+                ORDER BY
+                    t2."{sort_by}" DESC
+                LIMIT 1
+            )
+        ORDER BY
+            "Area Name"
+    """
+
+    return _labor_market_sql_to_dataframe(sql)
+
+
+def get_top_occupation_per_msa_by_percentage_change() -> pd.DataFrame:
+    """
+    Returns a DataFrame of the top occupation projections for each MSA sorted by"
+    "Percentage Change".
+    """
+    return _get_top_occupation_per_msa("Percentage Change")
+
+
+def get_top_occupation_per_msa_by_numeric_change() -> pd.DataFrame:
+    """
+    Returns a DataFrame of the top occupation projections for each MSA sorted by
+    "Numeric Change".
+    """
+    return _get_top_occupation_per_msa("Numeric Change")
