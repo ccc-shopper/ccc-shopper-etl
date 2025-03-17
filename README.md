@@ -4,16 +4,23 @@ Data on community colleges.
 
 ## Directory
 
+### Major Contributing Files
+
+- `report.pdf` is the final report.
 - `college_level_data.ipynb` contains exploratory data analysis using the [the CCCCO API](https://api.cccco.edu/) and the College Scorecard API.
 - `cccco_data_mart.ipynb` contains ETL scripts and exploratory data analysis on data from the [the CCC DataMart](https://datamart.cccco.edu/).
 - `labor_market.ipynb` contains contains exploratory data analysis on the data from [California Employment Development Department](https://data.ca.gov/).
 - `sentiment_analysis.ipynb` contains ETL scripts and a sentiment analysis on the colleges using [ratemyprofessors.com](https://www.ratemyprofessors.com/).
+
+### Secondary Files and Resources
+
 - `scripts/` contains modules that handle the ETL processes from the CCCCO API, the College Scorecard API, and the California Employment Development Department API.
 - `data/` contains the CSV output of some of the ETL processes discussed above.
 - `docs/` contains the HTML for the interactive plots generated in the code discussed above.
 - `figures/` contains the static plots generated in the code discussed above.
 - `resources/` contains CSVs downloaded from the web to assist in translating between data sources.
-- `jupyter/` contains a set of Jupyter notebooks that were used in the early stages of this project to test the ETL processes.
+- `jupyter/` contains a set of Jupyter notebooks that were used in the early stages of this project to test the ETL processes. Not relevant to the final project.
+- `pdfs/` contains the PDF versions of the four `.ipynb` files used to conduct the analysis. 
 
 ## Project Plan
 
